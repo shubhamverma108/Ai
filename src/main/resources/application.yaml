@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: postgres   # ✅ FIXED
+    driver-class-name: org.postgresql.Driver
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: whatsapp-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+          spring.json.trusted.packages: "*"
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: llama3.2:3b
+      embedding:
+        model: mxbai-embed-large
+
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+
+gemini:
+  api-key: AIzaSyAEGhBKJAQ35zdlKVq16QRvAglsPK-Wt1A
+
+whatsapp:
+    access-token: EAF5SG16NsNsBRJQ6NVofNOMrZBVuYnDjXuXwtA78iA7mQNeYgWXa1PEZAFlPJBypOa1e9misKz5xKUoCEuz1ZACWHyuCy8GnZAEtetOd6WOZA7U8MdoS44muQzZAMwk5bPtM7wucVNpYjmPEiaocl9e8DUR2XVpJQ2gFOVZBDH02osT490siqGyy5DmFnhQZA8Lxxjr6JDBV0A0DksLx6tmY1aCoXbufZAicor89xogNtid5YCV7tK91jm5ACWKjbeq1ukU8RpjxL1jgPKuADaTiz5nAEIG85OUQV5FsZCZAgZDZD
+
+
