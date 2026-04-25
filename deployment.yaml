@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spring-app
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -18,3 +19,34 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
+
+          env:
+            - name: SPRING_CONFIG_LOCATION
+              value: /config/
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: SPRING_DATASOURCE_PASSWORD
+
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: GEMINI_API_KEY
+
+            - name: WHATSAPP_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: WHATSAPP_ACCESS_TOKEN
+
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+
+      volumes:
+        - name: config-volume
+          configMap:
+            name: spring-config
